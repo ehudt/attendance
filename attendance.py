@@ -3,7 +3,6 @@
 
 # Scrape Knesset website and retrieve live member attendance
 # 2013 All rights reserved to Arbel Zinger, Ehud Tamir
-__author__ = "Arbel Zinger, Ehud Tamir"
 
 import urllib
 from HTMLParser import HTMLParser
@@ -28,7 +27,8 @@ class AttendanceHTMLParser(HTMLParser):
 
     def handle_data(self, data):
         """Extract the last updated time"""
-        if '2013' in data:
+        label = u'עדכון אחרון:'
+        if label.encode('cp1255') in data:
             self._timestamp = data[13:len(data)]
 
     def get_dict(self):
@@ -70,6 +70,8 @@ def main():
     try:
         attendance = Attendance()
         att_dict = attendance.get_attendance()
+        if len(att_dict['dictionary']) != 120:
+            log_string += "WARNING: Incomplete member list.\n"
     except:
         success = False
         log_string += "ERROR encountered:\n"
@@ -80,11 +82,10 @@ def main():
         output_file = os.path.join(BASE_OUTPUT_DIR, out_name)
         with open(output_file, 'w') as json_out:
             json.dump(att_dict, json_out)
+        log_string += "Output: %s\n" % output_file
     log_file = os.path.join(BASE_OUTPUT_DIR, LOG_OUTPUT)
     with open(log_file, "a") as log:
         log.write(log_string)
 
 if __name__ == '__main__':
     main()
-
-
