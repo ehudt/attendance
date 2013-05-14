@@ -86,6 +86,7 @@ def main():
     log_file = os.path.join(BASE_OUTPUT_DIR, LOG_OUTPUT)
     with open(log_file, "a") as log:
         log.write(log_string)
+    exit(0 if success else -1)
 
 if __name__ == '__main__':
     main()
