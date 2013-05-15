@@ -60,7 +60,8 @@ import os
 import traceback
 import time
 
-BASE_OUTPUT_DIR = 'tmp'
+BASE = os.path.dirname(os.path.abspath(__file__))
+BASE_OUTPUT_DIR = os.path.join(BASE, 'tmp')
 LOG_OUTPUT = 'attendance.log'
 
 def main():
