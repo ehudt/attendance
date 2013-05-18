@@ -33,7 +33,7 @@ class AttendanceHTMLParser(HTMLParser):
             date_part, time_part = timestamp.split(' ')
             day, month, year = date_part.split('/')
             date_part = '/'.join([year, month, day])
-            self._timestamp = ' '.join(date_part, time_part)
+            self._timestamp = ' '.join([date_part, time_part])
 
     def get_dict(self):
         return { 'timestamp': self._timestamp,
