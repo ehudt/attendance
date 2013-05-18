@@ -29,7 +29,11 @@ class AttendanceHTMLParser(HTMLParser):
         """Extract the last updated time"""
         label = u'עדכון אחרון:'
         if label.encode('cp1255') in data:
-            self._timestamp = data[13:len(data)]
+            timestamp = data[13:len(data)]
+            date_part, time_part = timestamp.split(' ')
+            day, month, year = date_part.split('/')
+            date_part = '/'.join([year, month, day])
+            self._timestamp = ' '.join(date_part, time_part)
 
     def get_dict(self):
         return { 'timestamp': self._timestamp,
